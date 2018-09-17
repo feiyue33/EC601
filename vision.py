@@ -42,5 +42,7 @@ for file in filelist:
             # print(label.description)
             description += str(label.description)+'\n'
         # print(description)
-        draw.text((90, 400), description, fill=(0, 25, 25), font=ttfront)
+        height = img.size
+        color = "#ffffff"
+        draw.text((100, 40), description, fill=color, font=ttfront)
         img.save(file)
