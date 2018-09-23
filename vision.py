@@ -1,7 +1,6 @@
 import io
 import os
 from PIL import Image, ImageDraw, ImageFont
-import glob
 
 # Imports the Google Cloud client library
 from google.cloud import vision
@@ -17,8 +16,8 @@ total_num = len(filelist)
 for file in filelist:
     if file.endswith('.jpg'):
 
-    # The name of the image file to annotate
-    # file_name = os.path.join(os.path.dirname(__file__), './pic1.jpg')
+        # The name of the image file to annotate
+        # file_name = os.path.join(os.path.dirname(__file__), './pic1.jpg')
 
         # Loads the image into memory
         with io.open(file, 'rb') as image_file:
@@ -42,7 +41,9 @@ for file in filelist:
             # print(label.description)
             description += str(label.description)+'\n'
         # print(description)
-        height = img.size
+        # height = img.size
         color = "#ffffff"
+
+        # Write label to imageß
         draw.text((100, 40), description, fill=color, font=ttfront)
         img.save(file)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
+# use ffmpeg to make a video
+
 import os
-import sys
 
 mkv_cmd = 'ffmpeg -r 1 -i pic%d.jpg -vcodec mpeg4 test.avi'
 

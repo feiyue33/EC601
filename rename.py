@@ -2,6 +2,8 @@ import os
 
 path = './'
 
+
+# rename images downloaded from twitter
 def rename():
     filelist = os.listdir(path)
     total_num = len(filelist)
