@@ -3,10 +3,10 @@ from tweepy import OAuthHandler
 import json
 import wget
 
-consumer_key = 'jJsxpMjxxoD8DvmWW0uWwT428'
-consumer_secret = 'W2bm9Zw6QyfGoclzChKFaup2PWUhNP9ETa4bGZ9aURI0P0M42a'
-access_token = '1038602494073597952-Xu2fJkM4JWNMlD80uGyaOy8zEaxKum'
-access_secret = 'VTKaGPVjP76rbLBmPjI8nlAqmi6gjYdkkcTcBfEiI0Tjp'
+consumer_key = 'your consumer key'
+consumer_secret = 'your consumer secret'
+access_token = 'your access token'
+access_secret = 'your access secret'
 
 # refer to https://miguelmalvarez.com/2015/03/03/download-the-pictures-from-a-twitter-feed-using-python/
 
