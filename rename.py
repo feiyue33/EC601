@@ -19,5 +19,3 @@ def rename():
             except:
                 continue
     print('total %d to rename & converted %d jpgs' % (total_num, i))
-
-rename()
