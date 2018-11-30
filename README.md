@@ -28,30 +28,49 @@ In order to successfully use the API, these packages should be installed first:
 ```
 pip install tweepy
 ```
+
 * wget
 ```
 pip install wget
 ```
+
 * FFmpeg
 
 You can download FFmpeg from official website: http://ffmpeg.org/
+
 * GoogleVision
 ```
 pip install google-cloud-vision
 ```
+
 * PyMySQL
 ```
 pip install pymysql
 ```
+
 * PyMongo
 ```
 pip install pymongo
 ```
-Also, please make sure MySQL and MongoDB are successfully installed on your PC.
+
+### Database
+Please make sure MySQL and MongoDB are successfully installed on your PC.
+
 * MySQL:
 https://www.mysql.com/downloads/
+
 * MongoDB:
 https://www.mongodb.com/
+
+## Quick Start
+
+### Create A New Database in MySQL
+```SQL
+CREATE DATABASE Twitter_API;
+```
+
+
+
 
 
 
