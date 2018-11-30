@@ -20,9 +20,12 @@ These python files belong to Mini Project 3:
 Run test.py to use the API. The images downloaded from Twitter account will store on your PC. The output video is test.avi. Logs and image information are stored in database.
 
 ## Requirements
+
+### Packages
 In order to successfully use the API, these packages shoule be installed first:
 
 * Tweepy
+```pip install tweepy```
 * wget
 * ffmpeg
 * GoogleVision
@@ -30,6 +33,8 @@ In order to successfully use the API, these packages shoule be installed first:
 * PyMongo
 
 Also, please make sure MySQL and MongoDB are successfully installed on your PC.
+
+
 
 
 
