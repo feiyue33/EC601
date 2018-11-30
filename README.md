@@ -22,19 +22,38 @@ Run test.py to use the API. The images downloaded from Twitter account will stor
 ## Requirements
 
 ### Packages
-In order to successfully use the API, these packages shoule be installed first:
+In order to successfully use the API, these packages should be installed first:
 
 * Tweepy
 ```
 pip install tweepy
 ```
 * wget
-* ffmpeg
+```
+pip install wget
+```
+* FFmpeg
+You can download FFmpeg from official website: http://ffmpeg.org/
 * GoogleVision
+```
+pip install google-cloud-vision
+```
 * PyMySQL
+```
+pip install pymysql
+```
 * PyMongo
-
+```
+pip install pymongo
+```
 Also, please make sure MySQL and MongoDB are successfully installed on your PC.
+* MySQL:
+https://www.mysql.com/downloads/
+* MongoDB:
+https://www.mongodb.com/
+
+
+
 
 
 
