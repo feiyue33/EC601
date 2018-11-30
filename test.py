@@ -6,6 +6,8 @@ access_key = '1038602494073597952-i3TOPIt196yU44tIgRYmrw66AWwzcQ'
 access_secret = 's0RyUZ5hSaq671MNx9dOaXzwv35Lvu1CAWDg3uHJgBTpM'
 
 api = twitter_api.twitter_api()
+
+# set keys and secrets of twitter api
 api.set_consumer_key(consumer_key, consumer_secret)
 api.set_access_key(access_key, access_secret)
 
@@ -31,4 +33,6 @@ print('There are', log_mysql_num[0], 'logs in MySQL.')
 
 log_mongo_num = api.mongo_summary()
 print('There are', log_mongo_num, 'logs in MongoDB.')
+
+api.img2video('lanadelrey')
 

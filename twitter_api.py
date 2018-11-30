@@ -4,7 +4,7 @@ import io
 import tweepy
 import urllib.request
 from google.cloud import vision
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 import pymysql
 import pymongo
@@ -22,7 +22,6 @@ class twitter_api(object):
         self.access_key = ''
         self.access_secret = ''
         self.error = None
-
         # MySQL connection
         try:
             self.mysql = pymysql.connect(host='localhost',
@@ -31,8 +30,10 @@ class twitter_api(object):
                                          db='Twitter_API',
                                          port=3306)
         except Exception as e:
-            print('Error: Cannot connect to MySQL! Please check the configuration.')
+            print('Error: Cannot connected to MySQL! Please check the configuration.')
             raise e
+        print('Successfully connected to MySQL!')
+        print('------------------------------------')
 
         # MongoDB connection
         try:
@@ -41,6 +42,8 @@ class twitter_api(object):
         except Exception as e:
             print('Error: Cannot connect to MongoDB! Please check the configuration.')
             raise e
+        print('Successfully connected to MongoDB!')
+        print('------------------------------------')
 
     def set_consumer_key(self, c_key, c_secret):
         self.consumer_key = c_key
@@ -68,6 +71,7 @@ class twitter_api(object):
         print('------------------------------------')
 
     def get_images(self, username, img_num):
+        # get images from twitter account
         log_str = 'download {num} twitter images from @{name}'.format(num=img_num, name=username)
         print('Try to', log_str)
 
@@ -75,9 +79,8 @@ class twitter_api(object):
             usr_tweets = self.api.user_timeline(screen_name=username,
                                                 count=img_num, include_rts=False,
                                                 exclude_replies=True)
-            # output = []
-            output_fmt = []
-            output_url = []
+            output_fmt = []  # format file name list
+            output_url = []  # image url list
             output = {}
             img_id = 0
             for tweet in usr_tweets:
@@ -99,22 +102,18 @@ class twitter_api(object):
 
         print('Finish: downloading images!')
         print('------------------------------------')
-
         return output
 
     def img2video(self, username):
-        command0 = ('ffmpeg -r 0.5 -i {img}_%d.jpg '
-                    '-vf scale=-600:600 -y -r 30 '
-                    '-t 60 movie.mp4'.format(img=username))
+        mkv_cmd = ('ffmpeg -r 1 -i {img}_%d.jpg -vcodec mpeg4 test.avi'.format(img=username))
 
         if os.path.exists('{img}_0.jpg'.format(img=username)):
-            os.popen(command0)
+            os.popen(mkv_cmd)
         else:
             # write log to database
             self.log('Fail: img2video')
-            raise Exception('No image file found in twiiter.')
-
-        self.log('Success: img2video')
+            raise Exception('No image file found in twitter.')
+        self.log('Success: make video.')
 
     def get_label(self, file_list):
         list_len = len(file_list)
@@ -141,6 +140,8 @@ class twitter_api(object):
 
                 print('Progress: ', file, '/', list_len)
             print('Finish: add labels!')
+            print('------------------------------------')
+
         except Exception as e:
             self.error = e
             print(e)
@@ -152,14 +153,13 @@ class twitter_api(object):
     def get_label_from_client(client, img_name, max_label):
         # Loads the image into memory
         with io.open(img_name, 'rb') as image:
-            request = { 'image': {'content': image.read()},
-                        'features': [
-                            {
-                            'type': 'LABEL_DETECTION',
-                            'max_results': max_label,
+            request = {'image': {'content': image.read()},
+                       'features': [{
+                                'type': 'LABEL_DETECTION',
+                                'max_results': max_label,
                             }
                         ],
-            }
+                       }
         try:
             # Performs label detection on the image file
             response = client.annotate_image(request)
@@ -171,7 +171,6 @@ class twitter_api(object):
         for label in labels:
             # print(label.description)
             description += str(label.description) + '\n'
-
         return description
 
     @staticmethod
@@ -183,6 +182,7 @@ class twitter_api(object):
         img.save(img_name)
 
     def log(self, log_str='Unknown'):
+        # Write log to database
         self.mysql_log(log_str)
         self.mongo_log(log_str)
 
@@ -192,7 +192,7 @@ class twitter_api(object):
         try:
             with self.mysql.cursor() as cursor:
                 cursor.execute('INSERT INTO api_log(time, action) VALUES (%s, %s)', (datetime.now(), log_str))
-            self. mysql.commit()
+            self.mysql.commit()
         except Exception as e:
             self.mysql.rollback()
             self.mysql.close()
@@ -291,7 +291,7 @@ class twitter_api(object):
                         continue
                     else:
                         result.append(col['twitter_id'])
-            return  result
+            return result
         except Exception as e:
             self.error = e
             raise e
