@@ -1,12 +1,10 @@
 import os
 import io
-import sys
 
 import tweepy
 import urllib.request
 from google.cloud import vision
-from google.cloud.vision import types
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 import pymysql
 import pymongo
@@ -14,6 +12,7 @@ import pymongo
 from datetime import datetime
 
 cur_dir = os.getcwd()
+
 
 class twitter_api(object):
 
