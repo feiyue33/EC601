@@ -16,11 +16,19 @@ img_list = api.get_images('lanadelrey', 20)
 api.get_label(img_list)
 
 keyword = 'black'
-results = api.mysql_search(keyword)
+mysql_results = api.mysql_search(keyword)
 print('MySQL: These twitter account owns keyword {}'.format(keyword))
-for rlt in results:
+for rlt in mysql_results:
     print(rlt)
 
-log_num = api.mysql_summary()
-print('There are', log_num[0], 'logs in MySQL.')
+mongo_results = api.mongo_search(keyword)
+print('MongoDB: These twitter account owns keyword {}'.format(keyword))
+for rlt in mongo_results:
+    print(rlt)
+
+log_mysql_num = api.mysql_summary()
+print('There are', log_mysql_num[0], 'logs in MySQL.')
+
+log_mongo_num = api.mongo_summary()
+print('There are', log_mongo_num, 'logs in MongoDB.')
 

@@ -35,12 +35,13 @@ class twitter_api(object):
             print('Error: Cannot connect to MySQL! Please check the configuration.')
             raise e
 
-        # # MongoDB connection
-        # try:
-        #     self.mongo = pymongo.MongoClient('mongodb://localhost:27017')['twitter_api']
-        # except Exception as e:
-        #     print('Error: Cannot connect to MongoDB! Please check the configuration.')
-        #     raise e
+        # MongoDB connection
+        try:
+            mongodb = pymongo.MongoClient('mongodb://localhost')
+            self.mongo = mongodb['Twitter_API']
+        except Exception as e:
+            print('Error: Cannot connect to MongoDB! Please check the configuration.')
+            raise e
 
     def set_consumer_key(self, c_key, c_secret):
         self.consumer_key = c_key
@@ -132,6 +133,9 @@ class twitter_api(object):
                 index = file.rfind('_')
                 username = file[:index]
                 description = description.strip().split('\n')
+                print(description)
+                self.mongo_label(username, description, url)
+
                 for label in description:
                     self.mysql_label(username, label, url)
                     # self.mongo(username, label)
@@ -181,12 +185,11 @@ class twitter_api(object):
 
     def log(self, log_str='Unknown'):
         self.mysql_log(log_str)
-        # self.mongo_log(log_str)
+        self.mongo_log(log_str)
 
     def mysql_log(self, log_str='Unknown'):
         if self.error:
             log_str = str(self.error)
-            # sql = 'INSERT INTO api_log(time, action) VALUES (%s, %s)'
         try:
             with self.mysql.cursor() as cursor:
                 cursor.execute('INSERT INTO api_log(time, action) VALUES (%s, %s)', (datetime.now(), log_str))
@@ -197,21 +200,20 @@ class twitter_api(object):
             raise e
 
     def mysql_label(self, username, label, url):
-        sql = 'INSERT INTO img_info(twitter_id, label, time, img_url) VALUES (%s, %s, %s, %s)'
         try:
             with self.mysql.cursor() as cursor:
-                cursor.execute(sql, (username, label, datetime.now(), url))
+                cursor.execute('INSERT INTO img_info(twitter_id, label, time, img_url) VALUES (%s, %s, %s, %s)',
+                               (username, label, datetime.now(), url))
         except Exception as e:
             self.error = e
-            self.mysql_log()
+            # self.mysql_log()
             self.mysql.close()
             raise e
 
     def mysql_search(self, key):
-        sql = 'SELECT * FROM img_info WHERE label like "%{}%"'.format(key)
         try:
             with self.mysql.cursor() as cursor:
-                cursor.execute(sql)
+                cursor.execute('SELECT * FROM img_info WHERE label like "%{}%"'.format(key))
                 results = cursor.fetchall()
         except Exception as e:
             self.error = e
@@ -226,10 +228,9 @@ class twitter_api(object):
         return user_list
 
     def mysql_summary(self):
-        sql = 'SELECT COUNT(*) FROM api_log'
         try:
             with self.mysql.cursor() as cursor:
-                cursor.execute(sql)
+                cursor.execute('SELECT COUNT(*) FROM api_log')
                 result = cursor.fetchone()
         except Exception as e:
             self.error = e
@@ -238,6 +239,66 @@ class twitter_api(object):
         finally:
             self.mysql_log('Count logs in MySQL.')
         return result
+
+    def mongo_log(self, log_str='Unknown'):
+        if self.error:
+            log_str = str(self.error)
+        doc = {
+            'time': datetime.now(),
+            'action': log_str,
+        }
+        try:
+            api_log = self.mongo['api_log']
+            api_log.insert_one(doc)
+        except Exception as e:
+            print('Fail: Write log to MongoDB.')
+            raise e
+
+    def mongo_label(self, username, description, url):
+        doc = {
+            'twitter_id': username,
+            'labels': description,
+            'url': url,
+        }
+        try:
+            img_info = self.mongo['img_info']
+            img_info.insert_one(doc)
+            # cursor = img_info.find({'user_id': username})
+        except Exception as e:
+            self.error = e
+            # self.mongo_log()
+            raise e
+
+    def mongo_summary(self):
+        try:
+            api_log = self.mongo['api_log']
+            count = 0
+            for i in api_log.find():
+                count = count + 1
+            return count
+        except Exception as e:
+            self.error = e
+            raise e
+        finally:
+            self.mongo_log('Count logs in MongoDB.')
+
+    def mongo_search(self, key):
+        result = []
+        try:
+            img_info = self.mongo['img_info']
+            for col in img_info.find():
+                if key in col['labels']:
+                    if col['twitter_id'] in result:
+                        continue
+                    else:
+                        result.append(col['twitter_id'])
+            return  result
+        except Exception as e:
+            self.error = e
+            raise e
+        finally:
+            self.log('Search {} in MySQL.'.format(key))
+
 
 
 
