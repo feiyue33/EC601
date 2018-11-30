@@ -2,6 +2,7 @@
 Mini Project 1 and Mini Project 3 of EC601 class from Boston University.
 
 ## Introduction
+
 ### Mini Project 1
 This API uses Tweepy to download images from a Twitter account，uses GoogleVision to label images and finally uses ffmpeg to make images to a video.
 These python files belong to Mini Project 1:
@@ -9,12 +10,14 @@ These python files belong to Mini Project 1:
 * rename.py
 * vision.py
 * main.py
-Run main.py to use the API. The images downloaded from Twitter account will store on your computer. The output video is test.avi.
-### Mini Project 3
-
+Run main.py to use the API. The images downloaded from Twitter account will store on your PC. The output video is test.avi.
 
 ### Mini Project 3
-Use database to store image information and log. Both SQL(MySQL) and NoSQL(MongoDB) are implemented in this update.
+Use database to store image information and log. Both SQL(MySQL) and NoSQL(MongoDB) are implemented. In mini project 3, the functions and files are reorganzied and fine-tuned. Also, more exceptions are considered.
+These python files belong to Mini Project 3:
+* twitter_api.py
+* test.py
+Run test.py to use the API. The images downloaded from Twitter account will store on your PC. The output video is test.avi. Logs and image information are stored in database.
 
 ## Requirements
 In order to successfully use the API, these packages shoule be installed first:
@@ -23,5 +26,13 @@ In order to successfully use the API, these packages shoule be installed first:
 * wget
 * ffmpeg
 * GoogleVision
+* PyMySQL
+* PyMongo
+
+Also, please make sure MySQL and MongoDB are successfully installed on your PC.
+
+
+
+
 
 
