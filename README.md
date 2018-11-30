@@ -25,7 +25,9 @@ Run test.py to use the API. The images downloaded from Twitter account will stor
 In order to successfully use the API, these packages shoule be installed first:
 
 * Tweepy
-```pip install tweepy```
+```
+pip install tweepy
+```
 * wget
 * ffmpeg
 * GoogleVision
