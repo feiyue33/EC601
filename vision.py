@@ -45,6 +45,6 @@ def label_images():
             # height = img.size
             color = "#ffffff"
 
-            # Write label to imageß
+            # Write label to image
             draw.text((100, 40), description, fill=color, font=ttfront)
             img.save(file)
