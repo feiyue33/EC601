@@ -71,6 +71,7 @@ https://www.mongodb.com/
 CREATE DATABASE Twitter_API;
 ```
 * Create new tables
+
 (1) api_log
 ```SQL
 CREATE TABLE api_log(
