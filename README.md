@@ -78,6 +78,7 @@ CREATE TABLE api_log(
 	time  DATETIME,
 	action VARCHAR(50));
 ```
+
 	* img_info
 ```SQL
 CREATE TABLE img_info(
