@@ -65,20 +65,21 @@ https://www.mongodb.com/
 ## Quick Start
 
 ### Create A New Database
-* Create a new database in MySQL
-	* Create a new database
+#### Create a new database in MySQL
+* Create a new database
 ```SQL
 CREATE DATABASE Twitter_API;
 ```
-	* Create new tables
-		* api_log
+* Create new tables
+	* api_log
 ```SQL
 CREATE TABLE api_log(
 	log_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	time  DATETIME,
 	action VARCHAR(50));
 ```
-		* img_info
+
+	* img_info
 ```SQL
 CREATE TABLE img_info(
 	label_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -87,7 +88,7 @@ CREATE TABLE img_info(
 	time DATETIME NULL,
 	img_url VARCHAR(200));
 ```
-* Create a new database in MongoDB
+#### Create a new database in MongoDB
 You can skip this step because the API will automatically create a new database in MongoDB.
 
 
