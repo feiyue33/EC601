@@ -120,7 +120,7 @@ You should reset MySQL configuration in twitter_api.py, line 27 to 31 to success
 ```
 
 ### Search information
-You can set the keyword to search information. You can find which twitter accounts or images has keyword label.
+You can set the keyword to search information. You can find which twitter accounts or images include keyword label.
 
 
 
