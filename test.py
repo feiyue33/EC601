@@ -1,9 +1,12 @@
 import twitter_api
 
-consumer_key = 'WM7Ps3GT1ifRqfHHfBtpzUIqY'
-consumer_secret = 'P0p7twqnbwELXA7czf6YtIjfTHgvSAfDYcKF0sXBqQ6XSGkP4K'
-access_key = '1038602494073597952-i3TOPIt196yU44tIgRYmrw66AWwzcQ'
-access_secret = 's0RyUZ5hSaq671MNx9dOaXzwv35Lvu1CAWDg3uHJgBTpM'
+consumer_key = 'Your consumer key'
+consumer_secret = 'Your consumer secrets'
+access_key = 'Your access key'
+access_secret = 'Your access secrets'
+
+twitter_account = 'lanadelrey'
+img_num = 20
 
 api = twitter_api.twitter_api()
 
@@ -14,18 +17,29 @@ api.set_access_key(access_key, access_secret)
 # connect to twitter
 api.get_auth()
 
-img_list = api.get_images('lanadelrey', 20)
+img_list = api.get_images(twitter_account, img_num)
 api.get_label(img_list)
 
 keyword = 'black'
-mysql_results = api.mysql_search(keyword)
-print('MySQL: These twitter account owns keyword {}'.format(keyword))
-for rlt in mysql_results:
+
+mysql_user_results = api.mysql_search_user(keyword)
+print('MySQL: These twitter account have keyword {}'.format(keyword))
+for rlt in mysql_user_results:
     print(rlt)
 
-mongo_results = api.mongo_search(keyword)
-print('MongoDB: These twitter account owns keyword {}'.format(keyword))
-for rlt in mongo_results:
+mongo_user_results = api.mongo_search_user(keyword)
+print('MongoDB: These twitter account have keyword {}'.format(keyword))
+for rlt in mongo_user_results:
+    print(rlt)
+
+mysql_img_results = api.mysql_search_img(keyword)
+print('MySQL: These images contain label {}'.format(keyword))
+for rlt in mysql_img_results:
+    print(rlt)
+
+mongo_img_results = api.mongo_search_img(keyword)
+print('MongoDB: These images contain label {}'.format(keyword))
+for rlt in mongo_img_results:
     print(rlt)
 
 log_mysql_num = api.mysql_summary()

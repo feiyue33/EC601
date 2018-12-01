@@ -26,7 +26,7 @@ class twitter_api(object):
         try:
             self.mysql = pymysql.connect(host='localhost',
                                          user='root',
-                                         password='mino930330',
+                                         password='your password',
                                          db='Twitter_API',
                                          port=3306)
         except Exception as e:
@@ -131,7 +131,7 @@ class twitter_api(object):
                 index = file.rfind('_')
                 username = file[:index]
                 description = description.strip().split('\n')
-                print(description)
+                # print(description)
                 self.mongo_label(username, description, url)
 
                 for label in description:
@@ -209,7 +209,7 @@ class twitter_api(object):
             self.mysql.close()
             raise e
 
-    def mysql_search(self, key):
+    def mysql_search_user(self, key):
         try:
             with self.mysql.cursor() as cursor:
                 cursor.execute('SELECT * FROM img_info WHERE label like "%{}%"'.format(key))
@@ -225,6 +225,23 @@ class twitter_api(object):
             if not row[1] in user_list:
                 user_list.append(row[1])
         return user_list
+
+    def mysql_search_img(self, key):
+        try:
+            with self.mysql.cursor() as cursor:
+                cursor.execute('SELECT * FROM img_info WHERE label like "%{}%"'.format(key))
+                results = cursor.fetchall()
+        except Exception as e:
+            self.error = e
+            self.mysql.close()
+            raise e
+        finally:
+            self.log('Search {} in MySQL.'.format(key))
+        img_list = []
+        for row in results:
+            if not row[4] in img_list:
+                img_list.append(row[4])
+        return img_list
 
     def mysql_summary(self):
         try:
@@ -281,23 +298,39 @@ class twitter_api(object):
         finally:
             self.mongo_log('Count logs in MongoDB.')
 
-    def mongo_search(self, key):
-        result = []
+    def mongo_search_user(self, key):
+        user_list = []
         try:
             img_info = self.mongo['img_info']
             for col in img_info.find():
                 if key in col['labels']:
-                    if col['twitter_id'] in result:
+                    if col['twitter_id'] in user_list:
                         continue
                     else:
-                        result.append(col['twitter_id'])
-            return result
+                        user_list.append(col['twitter_id'])
         except Exception as e:
             self.error = e
             raise e
         finally:
             self.log('Search {} in MySQL.'.format(key))
+        return user_list
 
+    def mongo_search_img(self, key):
+        img_list = []
+        try:
+            img_info = self.mongo['img_info']
+            for col in img_info.find():
+                if key in col['labels']:
+                    if col['url'] in img_list:
+                        continue
+                    else:
+                        img_list.append(col['url'])
+        except Exception as e:
+            self.error = e
+            raise e
+        finally:
+            self.log('Search {} in MySQL.'.format(key))
+        return img_list
 
 
 
