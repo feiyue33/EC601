@@ -71,14 +71,14 @@ https://www.mongodb.com/
 CREATE DATABASE Twitter_API;
 ```
 ** Create new tables
-*** api_log
+***  api_log
 ```SQL
 CREATE TABLE api_log(
 	log_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     time  DATETIME,
 	action VARCHAR(50));
   ```
-  *** img_info
+  ***  img_info
   ```SQL
   CREATE TABLE img_info(
 	label_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
