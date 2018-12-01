@@ -65,6 +65,7 @@ https://www.mongodb.com/
 ## Quick Start
 
 ### Create A New Database
+
 #### Create a new database in MySQL
 * Create a new database
 ```SQL
@@ -89,8 +90,38 @@ CREATE TABLE img_info(
 	time DATETIME NULL,
 	img_url VARCHAR(200));
 ```
+
 #### Create a new database in MongoDB
 You can skip this step because the API will automatically create a new database in MongoDB.
+
+### Set keys and secrets to use Twitter API
+You need to provide your own keys and secrets in test.py, line 3 to 6.
+```Python
+consumer_key = 'Your consumer key'
+consumer_secret = 'Your consumer secrets'
+access_key = 'Your access key'
+access_secret = 'Your access secrets'
+```
+
+### Provide Google Vision key file
+You need to put your Google Vision key file under the project folder.
+
+### Specify the twitter account
+You can specify the twitter account that you want to download images from. Also, you can set the number of images. The test.py default set twitter account to 'lanadelrey' and the number of images to 20.
+
+### Set MySQL database
+You should reset MySQL configuration in twitter_api.py, line 27 to 31 to successfully connect to MySQL.
+```Python
+    self.mysql = pymysql.connect(host='localhost',
+				 user='root',
+				 password='your password',
+				 db='Twitter_API',
+				 port=3306)
+```
+
+### Search information
+You can set the keyword to search information. You can find which twitter accounts or images has keyword label.
+
 
 
 
