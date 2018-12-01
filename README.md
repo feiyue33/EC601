@@ -71,7 +71,7 @@ https://www.mongodb.com/
 CREATE DATABASE Twitter_API;
 ```
 * Create new tables
-	* api_log
+(1) api_log
 ```SQL
 CREATE TABLE api_log(
 	log_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +79,7 @@ CREATE TABLE api_log(
 	action VARCHAR(50));
 ```
 
-	* img_info
+(2) img_info
 ```SQL
 CREATE TABLE img_info(
 	label_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
