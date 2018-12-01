@@ -105,3 +105,21 @@ access_secret = 'Your access secrets'
 
 ### Provide Google Vision key file
 You need to put your Google Vision key file under the project folder.
+
+### Reset MySQL configuration 
+You need to make sure that the MySQL configuration is correct. You can modify it in twitter_api.py, line 27 to 31.
+```Python
+    self.mysql = pymysql.connect(host='localhost',
+				 user='root',
+				 password='your password',
+				 db='Twitter_API',
+				 port=3306)
+```
+
+### Some parameters you can change
+* Twitter account
+In test.py, line 8, you can set the twitter account that you want to download images from.
+* Number of images
+In test.py, line 9, you can set the number of images that you want to download.
+* Keyword
+In test.py, line 23, you can set the search keyword.
